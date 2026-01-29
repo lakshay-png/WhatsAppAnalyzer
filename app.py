@@ -12,7 +12,6 @@ uploaded_file = st.sidebar.file_uploader("Choose a file")
 if uploaded_file is not None:
     bytes_data = uploaded_file.getvalue()
     data=bytes_data.decode("utf-8")
-    st.text(data)
     df=preprocessor.preprocess(data)
 
 
@@ -114,3 +113,4 @@ if uploaded_file is not None:
             fig,ax=plt.subplots()
             ax.bar(emoji_df[0], emoji_df[1], color='blue')
             st.pyplot(fig)
+
