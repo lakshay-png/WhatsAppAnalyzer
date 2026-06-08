@@ -35,6 +35,9 @@ def create_wordcloud(selected_user, df):
         if selected_user != 'Overall':
             df = df[df['user'] == selected_user]
 
+        if df.empty or df['message'].str.cat(sep=" ").strip() == "":
+            return None
+
         temp = df[df['user'] != 'group_notification']
         temp = temp[temp['message'] != '<Media omitted>\n']
 
@@ -62,35 +65,37 @@ def remove_stop_words(message, stop_words):
         )
 
 
-def most_common_words(selected_user,df):
-
-    f=open('stop_hinglish.txt','r')
-    stop_words=f.read()
+# Updated snippet for helper.py
+def most_common_words(selected_user, df):
+    # Always specify encoding to avoid platform-specific errors
+    with open('stop_hinglish.txt', 'r', encoding='utf-8') as f:
+        stop_words = set(f.read().split())
 
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
 
-    temp=df[df['user']!='group_notification']
-    temp=temp[temp['message']!='<Media omitted>\n']
+    # Filter out junk messages early
+    df = df[df['user'] != 'group_notification']
+    df = df[df['message'] != '<Media omitted>\n']
 
-    words=[]
-    for message in temp['message']:
-        for word in message.lower().split():
-            if word not in stop_words:
-                words.append(word)
+    if df.empty:
+        return pd.DataFrame() # Return empty DataFrame to avoid errors in app.py
 
-    most_common_df=pd.DataFrame(Counter(words).most_common(25))
-    return most_common_df
+    # Use list comprehension for better performance
+    words = [word for message in df['message'] for word in message.lower().split() if word not in stop_words]
+    
+    return pd.DataFrame(Counter(words).most_common(25))
 
-def emoji_helper(selected_user,df):
+def emoji_helper(selected_user, df):
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
 
-    emojis=[]
-    for message in df['message']:
-        emojis.extend([c for c in message if c in emoji.EMOJI_DATA])
-
-    emoji_df=pd.DataFrame(Counter(emojis).most_common(len(Counter(emojis))))
+    emojis = [c for message in df['message'] for c in message if c in emoji.EMOJI_DATA]
+    
+    emoji_counts = Counter(emojis).most_common()
+    
+    # Explicitly name the columns
+    emoji_df = pd.DataFrame(emoji_counts, columns=['Emoji', 'Count'])
     return emoji_df
 
 def monthly_timeline(selected_user,df):
