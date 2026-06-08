@@ -81,7 +81,7 @@ def most_common_words(selected_user, df):
     if df.empty:
         return pd.DataFrame() # Return empty DataFrame to avoid errors in app.py
 
-    # Use list comprehension for better performance
+    # Use list comphresession
     words = [word for message in df['message'] for word in message.lower().split() if word not in stop_words]
     
     return pd.DataFrame(Counter(words).most_common(25))
