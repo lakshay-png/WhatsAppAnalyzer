@@ -2,7 +2,7 @@ import re
 import pandas as pd
 
 def preprocess(data):
-
+    # add current whatsapp format of data 
     pattern = r'\[(\d{1,2}/\d{1,2}/\d{2},\s\d{1,2}:\d{2}:\d{2}.*?)]\s'
 
     messages = re.split(pattern, data)[1:]
