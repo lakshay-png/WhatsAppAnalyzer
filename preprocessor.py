@@ -49,7 +49,7 @@ def preprocess(data):
     df['minute'] = df['date'].dt.minute
 
     period = []
-
+ # setting a timeline
     for hour in df['hour']:
         start = str(hour)
         end = str((hour + 1) % 24)
