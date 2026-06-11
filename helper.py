@@ -16,6 +16,7 @@ def fetch_states(selected_user,df):
     for message in df['message']:
         words.extend(message.split())
 
+    #Fix media message filtering
     num_media_messages = df[df['message'] == '<Media omitted>\n'].shape[0]
     links=[]
     for message in df['message']:
