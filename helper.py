@@ -36,6 +36,7 @@ def create_wordcloud(selected_user, df):
         if selected_user != 'Overall':
             df = df[df['user'] == selected_user]
 
+        # no WordCloud crash on empty messages
         if df.empty or df['message'].str.cat(sep=" ").strip() == "":
             return None
 
