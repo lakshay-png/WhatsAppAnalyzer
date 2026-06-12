@@ -14,7 +14,8 @@ def preprocess(data):
         'message_date': dates,
         'user_message': user_messages
     })
-
+    
+    #Fix datetime parsing for AM/PM timestamps
     df['message_date'] = pd.to_datetime(
         df['message_date'],
         format='%d/%m/%y, %I:%M:%S %p'
