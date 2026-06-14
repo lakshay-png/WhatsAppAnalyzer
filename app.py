@@ -73,6 +73,7 @@ if uploaded_file is not None:
 
         st.title("Weekly Activity Map")
         user_heatmap=helper.activity_heatmap(selected_user,df)
+        # Add validation checks for visualizations
         if user_heatmap.empty:
             st.warning("No data available to show heatmap for this selection.")
         else:
