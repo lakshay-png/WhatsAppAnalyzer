@@ -9,6 +9,8 @@ from helper import week_activity_map
 st.sidebar.title('Whatsapp Chat Analyzer')
 
 uploaded_file = st.sidebar.file_uploader("Choose a file")
+
+#Handle empty datasets gracefully
 if uploaded_file is not None:
     bytes_data = uploaded_file.getvalue()
     data=bytes_data.decode("utf-8")
