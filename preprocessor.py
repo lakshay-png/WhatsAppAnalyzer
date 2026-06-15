@@ -1,6 +1,7 @@
 import re
 import pandas as pd
 
+# Add support for latest WhatsApp export format
 def preprocess(data):
     # add current whatsapp format of data 
     pattern = r'\[(\d{1,2}/\d{1,2}/\d{2},\s\d{1,2}:\d{2}:\d{2}.*?)]\s'
